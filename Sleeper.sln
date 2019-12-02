@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleeper.App", "Sleeper.App\Sleeper.App.csproj", "{E7F98AEF-3CF2-4E78-966D-B162BE3DFDBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleeper.Core", "Sleeper.Core\Sleeper.Core.csproj", "{23ECE9BF-B41C-41F0-B78C-7315459392D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7F98AEF-3CF2-4E78-966D-B162BE3DFDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F98AEF-3CF2-4E78-966D-B162BE3DFDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F98AEF-3CF2-4E78-966D-B162BE3DFDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F98AEF-3CF2-4E78-966D-B162BE3DFDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23ECE9BF-B41C-41F0-B78C-7315459392D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23ECE9BF-B41C-41F0-B78C-7315459392D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23ECE9BF-B41C-41F0-B78C-7315459392D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23ECE9BF-B41C-41F0-B78C-7315459392D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8963F9A2-42EC-4C5A-B524-BD42C78845B6}
+	EndGlobalSection
+EndGlobal
