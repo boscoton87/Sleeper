@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sleeper.App"
+        xmlns:customControls="clr-namespace:Sleeper.App.Controls"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Sleeper" Height="400" Width="400">
@@ -60,5 +61,6 @@
             >
             </Button>
         </StackPanel>
+        <customControls:AppSettingsPage Width="300" Height="300" Visibility="Visible"/>
     </Grid>
 </Window>

@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Sleeper.App.Controls.AppSettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sleeper.App.Controls"
+             xmlns:customControls="clr-namespace:Sleeper.App.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="350">
+    <Grid Background="#FF4E2E7C">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="40">
+            <Label Content="Settings" FontFamily="Calibri" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="0" Content="Hibernate" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Grid.Row="0" Grid.Column="1" Content=":" FontSize="20" FontFamily="Calibri" HorizontalAlignment="Left"/>
+                <customControls:ToggleSwitch Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" x:Name="HibernateEnabled" IsEnabled="{Binding IsAdminTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <Button Content="Save Changes" Width="85" Margin="10" PreviewMouseUp="SaveSettings"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
