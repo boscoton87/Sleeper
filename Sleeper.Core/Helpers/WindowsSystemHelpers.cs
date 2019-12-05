@@ -20,6 +20,7 @@ namespace Sleeper.Core.Helpers
             };
             process.StartInfo = startInfo;
             process.Start();
+            process.WaitForExit();
         }
 
         public static void SetHibernate(bool hibernateEnabled)
