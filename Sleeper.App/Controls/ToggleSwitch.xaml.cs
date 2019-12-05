@@ -1,5 +1,6 @@
 ﻿using Facade.Services;
 using Sleeper.App.Interfaces;
+using Sleeper.App.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace Sleeper.App.Controls
     /// </summary>
     public partial class ToggleSwitch : UserControl, IEmitterControl
     {
-        public List<Action<string>> ChangeEmitters { get; set; }
+        public AppSetting AppSetting { get; set; }
 
         public ToggleSwitch()
         {
@@ -22,14 +23,16 @@ namespace Sleeper.App.Controls
 
         public void SetState(string state)
         {
-            GetChildGrid().HorizontalAlignment = (HorizontalAlignment)Enum.Parse(typeof(HorizontalAlignment), state);
+            var stateValue = bool.Parse(state);
+            GetChildGrid().HorizontalAlignment = stateValue ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            AppSetting.Value = state;
         }
 
         private void ToggleState(object sender, MouseButtonEventArgs e)
         {
             Grid childGrid = GetChildGrid();
             childGrid.HorizontalAlignment = childGrid.HorizontalAlignment == HorizontalAlignment.Left ? HorizontalAlignment.Right : HorizontalAlignment.Left;
-            ChangeEmitters.ForEach(emitter => emitter(childGrid.HorizontalAlignment.ToString()));
+            AppSetting.Value = (childGrid.HorizontalAlignment == HorizontalAlignment.Right).ToString();
         }
 
         private Grid GetChildGrid()
@@ -44,6 +47,12 @@ namespace Sleeper.App.Controls
                 }
             }
             return childGrid;
+        }
+
+        public void SetEnabled(bool isEnabled)
+        {
+            var parentGrid = (Grid)Content;
+            parentGrid.IsEnabled = isEnabled;
         }
     }
 }

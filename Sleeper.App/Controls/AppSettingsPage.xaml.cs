@@ -20,37 +20,45 @@ namespace Sleeper.App.Controls
         {
             DataContext = Facade.Services.Container.ResolveGlobalInstance<IAppSettingsContext>();
             
-            var appSettings = Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().GetSettings();
-            ((IAppSettingsContext)DataContext).ChildControlNames = new List<string>() { "HibernateEnabled" };
-            ((IAppSettingsContext)DataContext).HibernateEnabledTextBox = bool.Parse(appSettings["hibernateEnabled"]) ? "Right" : "Left";
-            ((IAppSettingsContext)DataContext).IsAdminTextBox = appSettings["isAdmin"];
+            var currentSettings = Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().GetSettings();
+            ((IAppSettingsContext)DataContext).AppSettings = BuildAppSettings(currentSettings);
             Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().RegisterSettingChangeEmitter(
                 settings =>
                 {
-                    ((IAppSettingsContext)DataContext).HibernateEnabledTextBox = bool.Parse(appSettings["hibernateEnabled"]) ? "Right" : "Left";
-                    OnPropertyChanged("HibernateEnabled");
-                    ((IAppSettingsContext)DataContext).IsAdminTextBox = appSettings["isAdmin"];
-                    OnPropertyChanged("IsAdmin");
+                    ((IAppSettingsContext)DataContext).AppSettings.ForEach(setting => {
+                        var childControl = FindName(setting.ControlName) as IEmitterControl;
+                        childControl.SetState(settings[setting.SettingName]);
+                    });
                 }
             );
-            ((IAppSettingsContext)DataContext).ChildChangeEmitters.Add("HibernateEnabled", new List<Action<string>>()
-            {
-                value =>
-                {
-                    ((IAppSettingsContext)DataContext).HibernateEnabledTextBox = value;
-                }
-            });
             InitializeComponent();
-            ((IAppSettingsContext)DataContext).ChildControlNames.ForEach( childName => {
-                var childControl = FindName(childName) as IEmitterControl;
-                childControl.ChangeEmitters = ((IAppSettingsContext)DataContext).ChildChangeEmitters[childName];
-                childControl.SetState(((IAppSettingsContext)DataContext).HibernateEnabledTextBox);
+            ((IAppSettingsContext)DataContext).AppSettings.ForEach( setting => {
+                var childControl = FindName(setting.ControlName) as IEmitterControl;
+                childControl.AppSetting = setting;
+                childControl.SetState(currentSettings[setting.SettingName]);
+                childControl.SetEnabled(setting.IsEnabled);
             });
+        }
+
+        private List<AppSetting> BuildAppSettings(Dictionary<string, string> currentSettings)
+        {
+            return new List<AppSetting>()
+            {
+                new AppSetting()
+                {
+                    SettingName = "hibernateEnabled",
+                    ControlName = "HibernateEnabled",
+                    IsEnabled = bool.Parse(currentSettings["isAdmin"])
+                }
+            };
         }
 
         private void SaveSettings(object sender, MouseButtonEventArgs e)
         {
-            Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().UpdateSetting("hibernateEnabled", (((IAppSettingsContext)DataContext).HibernateEnabledTextBox == "Right").ToString());
+            ((IAppSettingsContext)DataContext).AppSettings.ForEach(setting =>
+            {
+                Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().UpdateSetting(setting.SettingName, setting.Value);
+            });
             Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().ApplySettings();
         }
 
@@ -59,19 +67,4 @@ namespace Sleeper.App.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
-}
-
-public class AppSetting
-{
-    public string ControlName { get; set; }
-
-    public string PropertyName { get; set; }
-
-    public string SettingName { get; set; }
-
-    public Func<object, string> ConvertFromSettingToValue { get; set; }
-
-    public Func<string, object> ConvertFromValueToSetting { get; set; }
-
-    public List<Action<string>> ChangeEmitters { get; set; }
 }

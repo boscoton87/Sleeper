@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Sleeper.App.Controls;
+using Sleeper.App.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Sleeper.App.Interfaces
 {
     public interface IEmitterControl
     {
-        List<Action<string>> ChangeEmitters { get; set; }
+        AppSetting AppSetting { get; set; }
 
         void SetState(string state);
+
+        void SetEnabled(bool isEnabled);
     }
 }
