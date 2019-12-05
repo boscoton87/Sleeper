@@ -17,12 +17,14 @@
                     <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 
                 <Label Grid.Row="0" Grid.Column="0" Content="Hibernate" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Label Grid.Row="0" Grid.Column="1" Content=":" FontSize="20" FontFamily="Calibri" HorizontalAlignment="Left"/>
                 <customControls:ToggleSwitch Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" x:Name="HibernateEnabled" IsEnabled="{Binding IsAdminTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Grid.Row="1" Grid.ColumnSpan="3" x:Name="HibernateEnabled_LockMessage" FontSize="10" Foreground="Red" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             </Grid>
             <Button Content="Save Changes" Width="85" Margin="10" PreviewMouseUp="SaveSettings"/>
         </StackPanel>

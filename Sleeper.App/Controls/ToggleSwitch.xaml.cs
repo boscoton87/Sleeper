@@ -28,6 +28,12 @@ namespace Sleeper.App.Controls
             AppSetting.Value = state;
         }
 
+        public void SetEnabled(bool isEnabled)
+        {
+            var parentGrid = (Grid)Content;
+            parentGrid.IsEnabled = isEnabled;
+        }
+
         private void ToggleState(object sender, MouseButtonEventArgs e)
         {
             Grid childGrid = GetChildGrid();
@@ -47,12 +53,6 @@ namespace Sleeper.App.Controls
                 }
             }
             return childGrid;
-        }
-
-        public void SetEnabled(bool isEnabled)
-        {
-            var parentGrid = (Grid)Content;
-            parentGrid.IsEnabled = isEnabled;
         }
     }
 }

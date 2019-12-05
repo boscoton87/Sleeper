@@ -9,6 +9,6 @@
     <Grid Width="65" Height="25" Background="LightBlue" PreviewMouseUp="ToggleState">
         <Label HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" FontFamily="Calibri" VerticalContentAlignment="Top" Content="ON"/>
         <Label HorizontalAlignment="Right" FontSize="12" FontWeight="Bold" FontFamily="Calibri" VerticalContentAlignment="Top" Content="OFF"/>
-        <Grid Name="Slider" Width="30" Height="21" Background="DarkGray" HorizontalAlignment="Right" Margin="2,0"></Grid>
+        <Grid Name="Slider" Width="30" Height="21" Background="DarkGray" HorizontalAlignment="Right" Margin="2,0"/>
     </Grid>
 </UserControl>

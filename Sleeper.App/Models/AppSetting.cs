@@ -14,6 +14,8 @@ namespace Sleeper.App.Models
 
         public bool IsEnabled { get; set; }
 
+        public string LockedMessage { get; set; }
+
         public string Value { get; set; }
     }
 }

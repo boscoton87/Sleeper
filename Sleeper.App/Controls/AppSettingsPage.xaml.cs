@@ -37,6 +37,14 @@ namespace Sleeper.App.Controls
                 childControl.AppSetting = setting;
                 childControl.SetState(currentSettings[setting.SettingName]);
                 childControl.SetEnabled(setting.IsEnabled);
+                if (!setting.IsEnabled)
+                {
+                    var messageLabel = FindName($"{setting.ControlName}_LockMessage");
+                    if(messageLabel != null)
+                    {
+                        ((Label)messageLabel).Content = setting.LockedMessage;
+                    }
+                }
             });
         }
 
@@ -48,7 +56,8 @@ namespace Sleeper.App.Controls
                 {
                     SettingName = "hibernateEnabled",
                     ControlName = "HibernateEnabled",
-                    IsEnabled = bool.Parse(currentSettings["isAdmin"])
+                    IsEnabled = bool.Parse(currentSettings["isAdmin"]),
+                    LockedMessage = "Requires Admin Access"
                 }
             };
         }

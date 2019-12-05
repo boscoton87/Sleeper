@@ -1,7 +1,4 @@
-﻿using Sleeper.App.Controls;
-using Sleeper.App.Models;
-using System;
-using System.Collections.Generic;
+﻿using Sleeper.App.Models;
 
 namespace Sleeper.App.Interfaces
 {
