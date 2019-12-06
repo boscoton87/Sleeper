@@ -1,4 +1,5 @@
 ﻿using Facade.Services;
+using Sleeper.App.Controls;
 using Sleeper.Core.Helpers;
 using Sleeper.Core.Interfaces;
 using System;
@@ -168,6 +169,12 @@ namespace Sleeper.App
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ToggleSettings(object sender, MouseButtonEventArgs e)
+        {
+            var settingsPage = (AppSettingsPage)FindName("SettingsPage");
+            settingsPage.Visibility = settingsPage.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

@@ -9,6 +9,7 @@
         ResizeMode="NoResize"
         Title="Sleeper" Height="400" Width="400">
     <Grid Background="#FF5C398F">
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20" PreviewMouseUp="ToggleSettings"/>
         <StackPanel Background="#FF6C47A2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Margin="10,10,10,4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Width="70" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -61,6 +62,6 @@
             >
             </Button>
         </StackPanel>
-        <customControls:AppSettingsPage Width="300" Height="300" Visibility="Visible"/>
+        <customControls:AppSettingsPage x:Name="SettingsPage" Width="300" Height="300" Visibility="Collapsed"/>
     </Grid>
 </Window>

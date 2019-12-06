@@ -58,6 +58,12 @@ namespace Sleeper.App.Controls
                     ControlName = "HibernateEnabled",
                     IsEnabled = bool.Parse(currentSettings["isAdmin"]),
                     LockedMessage = "Requires Admin Access"
+                },
+                new AppSetting()
+                {
+                    SettingName = "modernStandbyEnabled",
+                    ControlName = "ModernStandbyEnabled",
+                    IsEnabled = true
                 }
             };
         }
