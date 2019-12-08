@@ -1,4 +1,5 @@
 ﻿using Facade.Services;
+using Hardcodet.Wpf.TaskbarNotification;
 using Newtonsoft.Json;
 using Sleeper.App.Interfaces;
 using Sleeper.App.Models;
@@ -27,6 +28,10 @@ namespace Sleeper.App
             Container.RegisterGlobalInstance<ISettingLoader>(new JsonSettingLoader(programDataPath));
             Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
+
+
+            InitializeComponent();
+            Container.RegisterGlobalInstance<ITaskBar>(new TaskBar((TaskbarIcon)FindResource("SystemTrayIcon"), null));
         }
 
         private SettingManager GetSettings()

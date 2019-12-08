@@ -1,5 +1,8 @@
 ﻿using Facade.Services;
+using Hardcodet.Wpf.TaskbarNotification;
 using Sleeper.App.Controls;
+using Sleeper.App.Interfaces;
+using Sleeper.App.Models;
 using Sleeper.Core.Helpers;
 using Sleeper.Core.Interfaces;
 using System;
