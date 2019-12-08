@@ -22,21 +22,18 @@ namespace Sleeper.App
         {
             Action sleepAction = () => WindowsSystemHelpers.PerformSleep();
             Container.RegisterGlobalInstance<IDelayedActionService>(new DelayedActionService(sleepAction));
-            Container.RegisterGlobalInstance<ISettingLoader>(GetSettings());
+
+            var programDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Sleeper");
+            Container.RegisterGlobalInstance<ISettingLoader>(new JsonSettingLoader(programDataPath));
+            Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
         }
 
-        private SettingLoader GetSettings()
+        private SettingManager GetSettings()
         {
-            var programDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Sleeper");
-            var settingsFilePath = Path.Combine(programDataPath, "settings.json");
-            if (!File.Exists(settingsFilePath))
-            {
-                File.WriteAllText(settingsFilePath, JsonConvert.SerializeObject(new Dictionary<string, string>()));
-            }
-            Directory.CreateDirectory(programDataPath);
-            var settingLoader = new SettingLoader();
-            settingLoader.RegisterSettingMapping(
+            var settingLoader = Container.ResolveGlobalInstance<ISettingLoader>();
+            var settingManager = new SettingManager();
+            settingManager.RegisterSettingMapping(
                 "hibernateEnabled",
                 new SettingMapping()
                 {
@@ -48,7 +45,7 @@ namespace Sleeper.App
                     {
                         bool isSet;
                         bool isAdmin;
-                        string isAdminValue = Container.ResolveGlobalInstance<ISettingLoader>().GetSettings()["isAdmin"];
+                        string isAdminValue = Container.ResolveGlobalInstance<ISettingManager>().GetSettings()["isAdmin"];
                         if (bool.TryParse(value, out isSet) && bool.TryParse(isAdminValue, out isAdmin) && isAdmin)
                         {
                             WindowsSystemHelpers.SetHibernate(isSet);
@@ -56,7 +53,7 @@ namespace Sleeper.App
                     }
                 }
             );
-            settingLoader.RegisterSettingMapping(
+            settingManager.RegisterSettingMapping(
                 "isAdmin",
                 new SettingMapping()
                 {
@@ -69,33 +66,22 @@ namespace Sleeper.App
                     Apply = (value) => { }
                 }
             );
-            settingLoader.RegisterSettingMapping(
+            settingManager.RegisterSettingMapping(
                 "modernStandbyEnabled",
                 new SettingMapping()
                 {
                     Load = () =>
                     {
-                        var fileContents = File.ReadAllText(settingsFilePath);
-                        var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileContents);
-                        return settings.ContainsKey("modernStandbyEnabled") ? settings["modernStandbyEnabled"] : bool.FalseString;
+                        return settingLoader.GetSetting("modernStandbyEnabled") ?? bool.FalseString;
                     },
                     Apply = (value) =>
                     {
-                        var fileContents = File.ReadAllText(settingsFilePath);
-                        var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileContents);
-                        if (settings.ContainsKey("modernStandbyEnabled"))
-                        {
-                            settings["modernStandbyEnabled"] = value;
-                        } else
-                        {
-                            settings.Add("modernStandbyEnabled", value);
-                        }
-                        File.WriteAllText(settingsFilePath, JsonConvert.SerializeObject(settings));
+                        settingLoader.ApplySetting("modernStandbyEnabled", value);
                     }
                 }
             );
-            settingLoader.GatherSettings();
-            return settingLoader;
+            settingManager.GatherSettings();
+            return settingManager;
         }
     }
 }

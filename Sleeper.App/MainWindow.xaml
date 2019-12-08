@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:Sleeper.App"
         xmlns:customControls="clr-namespace:Sleeper.App.Controls"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
-        Title="Sleeper" Height="400" Width="400">
+        ResizeMode="CanMinimize"
+        Title="Sleeper"
+        Height="400"
+        Width="400"
+    >
+
     <Grid Background="#FF5C398F">
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20" PreviewMouseUp="ToggleSettings"/>
         <StackPanel Background="#FF6C47A2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">

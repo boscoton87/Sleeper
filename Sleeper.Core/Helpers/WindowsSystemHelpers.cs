@@ -9,7 +9,7 @@ namespace Sleeper.Core.Helpers
     {
         public static void PerformSleep()
         {
-            var settings = Container.ResolveGlobalInstance<ISettingLoader>().GetSettings();
+            var settings = Container.ResolveGlobalInstance<ISettingManager>().GetSettings();
             var modernStandbyEnabled = bool.Parse(settings["modernStandbyEnabled"]);
             var hibernateEnabled = bool.Parse(settings["hibernateEnabled"]);
             if (modernStandbyEnabled && !hibernateEnabled)

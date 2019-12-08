@@ -133,12 +133,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sleeper.Core\Sleeper.Core.csproj">
-      <Project>{23ECE9BF-B41C-41F0-B78C-7315459392D9}</Project>
-      <Name>Sleeper.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +140,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Sleeper_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sleeper.Core\Sleeper.Core.csproj">
+      <Project>{f9f57214-cce3-4e47-b4b0-bd4be1bc2eef}</Project>
+      <Name>Sleeper.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />
