@@ -1,21 +1,15 @@
-﻿using Sleeper.Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Sleeper.Core.Interfaces
 {
     public interface ISettingLoader
     {
-        void RegisterSettingChangeEmitter(Action<Dictionary<string, string>> settingChangeEmitter);
+        void ApplySetting(string setting, string value);
 
-        void RegisterSettingMapping(string setting, SettingMapping mapper);
-
-        void UpdateSetting(string setting, string value);
-
-        void ApplySettings();
-
-        Dictionary<string, string> GatherSettings();
-
-        Dictionary<string, string> GetSettings();
+        string GetSetting(string setting);
     }
 }

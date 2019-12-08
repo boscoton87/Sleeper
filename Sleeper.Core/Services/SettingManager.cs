@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Sleeper.Core.Services
 {
-    public class SettingLoader : ISettingLoader
+    public class SettingManager : ISettingManager
     {
         private Dictionary<string, SettingMapping> SettingMappings { get; } = new Dictionary<string, SettingMapping>();
 

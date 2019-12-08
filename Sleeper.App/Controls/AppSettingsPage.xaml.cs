@@ -20,9 +20,9 @@ namespace Sleeper.App.Controls
         {
             DataContext = Facade.Services.Container.ResolveGlobalInstance<IAppSettingsContext>();
             
-            var currentSettings = Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().GetSettings();
+            var currentSettings = Facade.Services.Container.ResolveGlobalInstance<ISettingManager>().GetSettings();
             ((IAppSettingsContext)DataContext).AppSettings = BuildAppSettings(currentSettings);
-            Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().RegisterSettingChangeEmitter(
+            Facade.Services.Container.ResolveGlobalInstance<ISettingManager>().RegisterSettingChangeEmitter(
                 settings =>
                 {
                     ((IAppSettingsContext)DataContext).AppSettings.ForEach(setting => {
@@ -72,9 +72,9 @@ namespace Sleeper.App.Controls
         {
             ((IAppSettingsContext)DataContext).AppSettings.ForEach(setting =>
             {
-                Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().UpdateSetting(setting.SettingName, setting.Value);
+                Facade.Services.Container.ResolveGlobalInstance<ISettingManager>().UpdateSetting(setting.SettingName, setting.Value);
             });
-            Facade.Services.Container.ResolveGlobalInstance<ISettingLoader>().ApplySettings();
+            Facade.Services.Container.ResolveGlobalInstance<ISettingManager>().ApplySettings();
         }
 
         protected void OnPropertyChanged(string name)
