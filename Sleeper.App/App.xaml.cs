@@ -1,13 +1,12 @@
 ﻿using Facade.Services;
 using Hardcodet.Wpf.TaskbarNotification;
-using Newtonsoft.Json;
 using Sleeper.App.Interfaces;
 using Sleeper.App.Models;
+using Sleeper.App.SystemTray;
 using Sleeper.Core.Helpers;
 using Sleeper.Core.Interfaces;
 using Sleeper.Core.Services;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Principal;
 using System.Windows;
@@ -31,7 +30,11 @@ namespace Sleeper.App
 
 
             InitializeComponent();
-            Container.RegisterGlobalInstance<ITaskBar>(new TaskBar((TaskbarIcon)FindResource("SystemTrayIcon"), null));
+
+            var taskBarIcon = (TaskBarControl)FindResource("SystemTrayIcon");
+            var taskBarContext = new TaskBarContext();
+            taskBarIcon.DataContext = taskBarContext;
+            Container.RegisterGlobalInstance<ITaskBar>(new TaskBar(taskBarIcon, taskBarContext));
         }
 
         private SettingManager GetSettings()
