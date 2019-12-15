@@ -9,17 +9,24 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <TextBox
+                <Grid
                     Height="50"
-                    Width="60"
-                    FontFamily="Calibri"
-                    BorderThickness="0"
-                    VerticalContentAlignment="Center"
-                    HorizontalContentAlignment="Left"
-                    FontSize="40"
+                    Width="60" 
                     Background="#FF99C3F1"
-                    Text="{Binding DisplayTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                />
+                >
+                    <TextBox
+                        Height="50"
+                        Width="45"
+                        FontFamily="Calibri"
+                        BorderThickness="0"
+                        HorizontalAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Right"
+                        FontSize="40"
+                        Background="Transparent"
+                        Text="{Binding DisplayTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                </Grid>
                 <StackPanel Orientation="Vertical" Width="20">
                     <Button Height="25" Background="#FFB0C0D3" PreviewMouseUp="IncrementDisplayValue" BorderThickness="0">
                         <Polygon Points="5,0 10,5, 0,5" Stroke="#FF8591A0" Fill="#FF8591A0" Margin="1,0,0,0" />

@@ -22,8 +22,8 @@ namespace Sleeper.App.Controls
     /// </summary>
     public partial class TaskPopupControl : UserControl, INotifyPropertyChanged
     {
-        private const string StartProcessText = "Set Sleep Timer";
-        private const string CancelProcessText = "Cancel Sleep Timer";
+        private const string StartProcessText = "Set";
+        private const string CancelProcessText = "Cancel";
         private const int MaximumDurationInMinutes = 5999;
 
         public event PropertyChangedEventHandler PropertyChanged;

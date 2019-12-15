@@ -25,7 +25,7 @@ namespace Sleeper.App.Controls
         {
             get
             {
-                return NumberValue.Value.ToString();
+                return NumberValue.ToString();
             }
             set
             {
