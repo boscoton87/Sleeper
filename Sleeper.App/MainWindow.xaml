@@ -16,7 +16,7 @@
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20" PreviewMouseUp="ToggleSettings"/>
         <StackPanel Background="#FF6C47A2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Margin="10,10,10,4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Width="70" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel  Width="70" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Label Content="Hours" HorizontalAlignment="Center" FontFamily="Calibri" FontSize="16"/>
                     <Button Height="22" Background="#FF969899" PreviewMouseUp="IncrementHours">
                         <TextBlock FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,2">+</TextBlock>

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Sleeper.App.Controls;
+using Sleeper.Core.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +25,13 @@ namespace Sleeper.App.SystemTray
     {
         public TaskBarControl()
         {
+            DataContext = this;
             InitializeComponent();
         }
 
-        public void PrintMessage(object sender, MouseButtonEventArgs e)
+        private void ExitApplication(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Hello World!");
+            Application.Current.Shutdown();
         }
     }
 }

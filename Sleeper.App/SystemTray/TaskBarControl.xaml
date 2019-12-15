@@ -4,28 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sleeper.App.SystemTray"
+             xmlns:customControls="clr-namespace:Sleeper.App.Controls"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <tb:TaskbarIcon
         IconSource="/Sleeper_icon.ico"
         ToolTipText="Sleeper"
-        PopupActivation="All"
+        PopupActivation="LeftOrDoubleClick"
+        MenuActivation="RightClick"
     >
         <tb:TaskbarIcon.TrayPopup>
-            <Border
-                  Background="LightGray"
-                  BorderBrush="Gray"
-                  BorderThickness="2"
-                  Width="100"
-                  Height="200"
-            >
-                <StackPanel Orientation="Vertical">
-                    <Grid PreviewMouseUp="PrintMessage" Width="100" Height="40">
-                        <Label>Hello</Label>
-                    </Grid>
-                </StackPanel>
-            </Border>
+            <customControls:TaskPopupControl/>
         </tb:TaskbarIcon.TrayPopup>
+        <tb:TaskbarIcon.ContextMenu>
+            <ContextMenu Background="LightGray">
+                <MenuItem Header="Enable Hibernate" IsCheckable="True"/>
+                <MenuItem Header="Enable Modern Standby" IsCheckable="True"/>
+                <Separator/>
+                <MenuItem Header="Exit" PreviewMouseUp="ExitApplication"/>
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>
 </UserControl>

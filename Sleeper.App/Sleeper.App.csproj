@@ -75,11 +75,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\TaskPopupControl.xaml.cs">
+      <DependentUpon>TaskPopupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TimeDisplay.xaml.cs">
+      <DependentUpon>TimeDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SystemTray\TaskBarControl.xaml.cs">
       <DependentUpon>TaskBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskBarContext.cs" />
     <Page Include="Controls\AppSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TaskPopupControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimeDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
