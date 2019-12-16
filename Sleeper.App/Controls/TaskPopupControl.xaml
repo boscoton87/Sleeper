@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Sleeper.App.Controls.TaskPopupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:customControls="clr-namespace:Sleeper.App.Controls"
+             xmlns:local="clr-namespace:Sleeper.App.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="250">
+    <Grid Opacity=".98" Background="#FF88BAEE">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Margin="10,10,10,4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <customControls:TimeDisplay x:Name="HoursDisplay" Margin="0,0,10,0"/>
+                <customControls:TimeDisplay x:Name="MinutesDisplay"/>
+            </StackPanel>
+            <Button
+                Height="22"
+                Width="100"
+                Margin="0,5,0,10"
+                Background="#FFB0C0D3"
+                BorderThickness="0"
+                Foreground="Black"
+                PreviewMouseUp="TriggerDelayedAction"
+                Content="{Binding ExecuteButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"              
+            >
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
