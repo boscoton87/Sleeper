@@ -60,10 +60,14 @@ namespace Sleeper.App.Controls
                 var hourDisplayControl = ((TimeDisplay)FindName("HoursDisplay"));
                 hourDisplayControl.DisplayTextBox = (newDelay / 60).ToString();
                 minuteDisplayControl.DisplayTextBox = (newDelay % 60).ToString();
+                if (newDelay == 0)
+                {
+                    ExecuteButtonText = StartProcessText;
+                }
             });
             var minuteDisplay = ((TimeDisplay)FindName("MinutesDisplay"));
             minuteDisplay.UnitsToMinutes = 1;
-            MinutesDisplay.Units = "m";
+            minuteDisplay.Units = "m";
             minuteDisplay.ApplyDelay = ApplyDelayOffset;
             var hourDisplay = ((TimeDisplay)FindName("HoursDisplay"));
             hourDisplay.UnitsToMinutes = 60;

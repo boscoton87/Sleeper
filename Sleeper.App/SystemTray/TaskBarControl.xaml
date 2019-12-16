@@ -18,9 +18,9 @@
             <customControls:TaskPopupControl/>
         </tb:TaskbarIcon.TrayPopup>
         <tb:TaskbarIcon.ContextMenu>
-            <ContextMenu Background="LightGray">
-                <MenuItem Header="Enable Hibernate" IsCheckable="True"/>
-                <MenuItem Header="Enable Modern Standby" IsCheckable="True"/>
+            <ContextMenu Background="LightGray" MenuItem.Click="SaveSettings">
+                <MenuItem x:Name="HibernateEnabled" Header="Enable Hibernate" IsCheckable="True"/>
+                <MenuItem x:Name="ModernStandbyEnabled" Header="Enable Modern Standby" IsCheckable="True"/>
                 <Separator/>
                 <MenuItem Header="Exit" PreviewMouseUp="ExitApplication"/>
             </ContextMenu>

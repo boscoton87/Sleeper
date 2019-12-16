@@ -32,7 +32,7 @@ namespace Sleeper.App
             InitializeComponent();
 
             var taskBarIcon = (TaskBarControl)FindResource("SystemTrayIcon");
-            var taskBarContext = new TaskBarContext();
+            var taskBarContext = Container.ResolveGlobalInstance<IAppSettingsContext>();
             taskBarIcon.DataContext = taskBarContext;
             Container.RegisterGlobalInstance<ITaskBar>(new TaskBar(taskBarIcon, taskBarContext));
         }
