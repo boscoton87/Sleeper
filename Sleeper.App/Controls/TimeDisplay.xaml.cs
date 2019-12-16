@@ -55,12 +55,20 @@ namespace Sleeper.App.Controls
 
         private void IncrementDisplayValue(object sender, MouseEventArgs e)
         {
+            if(NumberValue >= 99)
+            {
+                return;
+            }
             var offset = IncrementDelayCount(UnitsToMinutes, NumberValue * UnitsToMinutes) / UnitsToMinutes;
             ApplyOffset(offset);
         }
 
         private void DecrementDisplayValue(object sender, MouseEventArgs e)
         {
+            if (NumberValue <= 0)
+            {
+                return;
+            }
             var offset = IncrementDelayCount((-1 * UnitsToMinutes), NumberValue * UnitsToMinutes) / UnitsToMinutes;
             ApplyOffset(offset);
         }
