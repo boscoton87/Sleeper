@@ -63,6 +63,7 @@ namespace Sleeper.App.Controls
                 if (newDelay == 0)
                 {
                     ExecuteButtonText = StartProcessText;
+                    OnPropertyChanged("ExecuteButtonText");
                 }
             });
             var minuteDisplay = ((TimeDisplay)FindName("MinutesDisplay"));
