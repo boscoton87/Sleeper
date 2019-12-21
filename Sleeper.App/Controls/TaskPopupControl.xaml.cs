@@ -1,8 +1,10 @@
-﻿using Sleeper.Core.Interfaces;
+﻿using BlurryControls.Controls;
+using Sleeper.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -20,7 +23,7 @@ namespace Sleeper.App.Controls
     /// <summary>
     /// Interaction logic for TaskPopupControl.xaml
     /// </summary>
-    public partial class TaskPopupControl : UserControl, INotifyPropertyChanged
+    public partial class TaskPopupControl : BlurryUserControl, INotifyPropertyChanged
     {
         private const string StartProcessText = "Set";
         private const string CancelProcessText = "Cancel";
@@ -68,12 +71,33 @@ namespace Sleeper.App.Controls
             });
             var minuteDisplay = ((TimeDisplay)FindName("MinutesDisplay"));
             minuteDisplay.UnitsToMinutes = 1;
+            minuteDisplay.IncrementValue = 15;
             minuteDisplay.Units = "m";
             minuteDisplay.ApplyDelay = ApplyDelayOffset;
+            minuteDisplay.TryCarryToNextPosition = (value) =>
+            {
+                if(HoursDisplay.NumberValue + value > HoursDisplay.MaximumValue)
+                {
+                    return false;
+                }
+                HoursDisplay.ApplyOffset(value);
+                return true;
+            };
+            minuteDisplay.TakeFromNextPosition = (requestedValue) =>
+            {
+                if (HoursDisplay.NumberValue < requestedValue)
+                {
+                    return null;
+                }
+                HoursDisplay.ApplyOffset(-requestedValue);
+                return requestedValue;
+            };
             var hourDisplay = ((TimeDisplay)FindName("HoursDisplay"));
             hourDisplay.UnitsToMinutes = 60;
             hourDisplay.Units = "h";
             hourDisplay.ApplyDelay = ApplyDelayOffset;
+            minuteDisplay.ButtonVisibility = Visibility.Visible;
+            hourDisplay.ButtonVisibility = Visibility.Collapsed;
         }
 
         private void ApplyDelayOffset(int offset)
