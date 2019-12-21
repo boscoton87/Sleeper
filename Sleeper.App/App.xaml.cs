@@ -3,6 +3,7 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Sleeper.App.Interfaces;
 using Sleeper.App.Models;
 using Sleeper.App.SystemTray;
+using Sleeper.Core.Enums;
 using Sleeper.Core.Helpers;
 using Sleeper.Core.Interfaces;
 using Sleeper.Core.Services;
@@ -28,6 +29,8 @@ namespace Sleeper.App
             Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
 
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper", "logs.json");
+            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, LogLevel.Warning));
 
             InitializeComponent();
 
