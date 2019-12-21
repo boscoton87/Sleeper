@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Facade.Services;
+using Newtonsoft.Json;
 using Sleeper.Core.Enums;
 using Sleeper.Core.Interfaces;
 using System;
@@ -14,10 +15,11 @@ namespace Sleeper.Core.Services
         private LogLevel MinimumLevel { get; }
         public JsonFileLogger(string logPath, LogLevel minimumLevel)
         {
-            LogPath = logPath;
+            Directory.CreateDirectory(logPath);
+            LogPath = Path.Combine(logPath, "logs.json");
             MinimumLevel = minimumLevel;
         }
-        void ILogger.LogMessage(LogLevel level, string message)
+        public void LogMessage(LogLevel level, string message, Dictionary<string, string> settings)
         {
             if (level >= MinimumLevel && !string.IsNullOrWhiteSpace(message))
             {
@@ -31,27 +33,30 @@ namespace Sleeper.Core.Services
                     }
                     catch
                     {
-                        logEntries.Add(new LogEntry(LogLevel.Warning, "Previous log entries corrupt, rebuilding log file", DateTime.UtcNow));
+                        logEntries.Add(new LogEntry(LogLevel.Warning, "Previous log entries corrupt, rebuilding log file", DateTime.UtcNow, settings));
                     }
                 }
-                logEntries.Add(new LogEntry(level, message, DateTime.UtcNow));
+                logEntries.Add(new LogEntry(level, message, DateTime.UtcNow, settings));
                 File.WriteAllText(LogPath, JsonConvert.SerializeObject(logEntries));
             }
         }
 
         private class LogEntry
         {
-            public LogEntry(LogLevel level, string message, DateTime timeStamp)
+            public LogEntry(LogLevel level, string message, DateTime timeStamp, Dictionary<string, string> settings)
             {
                 Level = level;
                 Message = message;
                 TimeStamp = timeStamp;
+                Settings = settings;
             }
             public LogLevel Level { get; }
 
             public string Message { get; }
 
             public DateTime TimeStamp { get; }
+
+            public Dictionary<string, string> Settings { get; }
         }
     }
 }

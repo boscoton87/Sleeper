@@ -1,4 +1,5 @@
-﻿using Sleeper.Core.Interfaces;
+﻿using Sleeper.Core.Helpers;
+using Sleeper.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Sleeper.Core.Services
 
         public void RegisterSettingMapping(string setting, SettingMapping mapping)
         {
+            ReportingHelpers.LogInfo($"Setting registered: {setting}.", false);
             if (SettingMappings.ContainsKey(setting))
             {
                 SettingMappings[setting] = mapping;
@@ -31,6 +33,7 @@ namespace Sleeper.Core.Services
 
         public void UpdateSetting(string setting, string value)
         {
+            ReportingHelpers.LogInfo($"Setting updated: {setting}, {value}.");
             if (!CachedSettings.ContainsKey(setting))
             {
                 CachedSettings.Add(setting, value);
@@ -57,6 +60,7 @@ namespace Sleeper.Core.Services
             {
                 CachedSettings.Add(settingMapper.Key, settingMapper.Value.Load());
             }
+            ReportingHelpers.LogInfo("Broadcasting Setting Change Emitters.", false);
             SettingChangeEmitters.ForEach(emitter => emitter(CachedSettings));
             return CachedSettings.ToDictionary(entry => entry.Key, entry => entry.Value);
         }

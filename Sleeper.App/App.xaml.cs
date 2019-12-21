@@ -21,6 +21,9 @@ namespace Sleeper.App
     {
         public App()
         {
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper");
+            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, LogLevel.Info));
+
             Action sleepAction = () => WindowsSystemHelpers.PerformSleep();
             Container.RegisterGlobalInstance<IDelayedActionService>(new DelayedActionService(sleepAction));
 
@@ -28,9 +31,6 @@ namespace Sleeper.App
             Container.RegisterGlobalInstance<ISettingLoader>(new JsonSettingLoader(programDataPath));
             Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
-
-            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper", "logs.json");
-            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, LogLevel.Warning));
 
             InitializeComponent();
 
