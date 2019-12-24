@@ -1,5 +1,6 @@
 ﻿using Facade.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Sleeper.Core.Enums;
 using Sleeper.Core.Interfaces;
 using System;
@@ -50,6 +51,8 @@ namespace Sleeper.Core.Services
                 TimeStamp = timeStamp;
                 Settings = settings;
             }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public LogLevel Level { get; }
 
             public string Message { get; }

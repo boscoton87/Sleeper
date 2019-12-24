@@ -21,9 +21,6 @@ namespace Sleeper.App
     {
         public App()
         {
-            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper");
-            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, LogLevel.Info));
-
             Action sleepAction = () => WindowsSystemHelpers.PerformSleep();
             Container.RegisterGlobalInstance<IDelayedActionService>(new DelayedActionService(sleepAction));
 
@@ -31,6 +28,14 @@ namespace Sleeper.App
             Container.RegisterGlobalInstance<ISettingLoader>(new JsonSettingLoader(programDataPath));
             Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
+
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper");
+            LogLevel logLevel;
+            if(!Enum.TryParse(Container.ResolveGlobalInstance<ISettingManager>().GetSettings()["logLevel"], out logLevel))
+            {
+                logLevel = LogLevel.Warning;
+            }
+            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, logLevel));
 
             InitializeComponent();
 
@@ -88,6 +93,20 @@ namespace Sleeper.App
                     Apply = (value) =>
                     {
                         settingLoader.ApplySetting("modernStandbyEnabled", value);
+                    }
+                }
+            );
+            settingManager.RegisterSettingMapping(
+                "logLevel",
+                new SettingMapping()
+                {
+                    Load = () =>
+                    {
+                        return settingLoader.GetSetting("logLevel") ?? LogLevel.Warning.ToString();
+                    },
+                    Apply = (value) =>
+                    {
+                        settingLoader.ApplySetting("logLevel", value);
                     }
                 }
             );
