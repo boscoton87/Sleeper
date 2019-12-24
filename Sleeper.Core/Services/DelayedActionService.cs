@@ -1,8 +1,8 @@
-﻿using Sleeper.Core.Interfaces;
+﻿using Sleeper.Core.Helpers;
+using Sleeper.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Sleeper.Core.Services
 {
@@ -51,7 +51,8 @@ namespace Sleeper.Core.Services
 
         public void IncreaseDelay(int delayInMinutes)
         {
-            if((DelayInMinutes + delayInMinutes) < 0)
+            ReportingHelpers.LogInfo($"Delay of {DelayInMinutes} increased by {delayInMinutes} minutes.");
+            if ((DelayInMinutes + delayInMinutes) < 0)
             {
                 DelayInMinutes = 0;
             } else
@@ -62,30 +63,41 @@ namespace Sleeper.Core.Services
 
         public async Task ExecuteActionOnDelay(int delayInMinutes)
         {
-            if (!ActionIsActive)
+            try
             {
-                ActionIsActive = true;
-                DelayInMinutes = delayInMinutes;
-                DelayChangeEmitters.ForEach(emitter => emitter(DelayInMinutes));
-                while (DelayInMinutes > 0)
+                if (!ActionIsActive)
                 {
-                    var cyclesPerMinute = 1000;
-                    for(int index = 0; index < cyclesPerMinute; index++)
-                    {
-                        await Task.Delay(MinuteInMs / cyclesPerMinute);
-                        if (CancelAction)
-                        {
-                            CancelAction = false;
-                            ActionIsActive = false;
-                            DelayCancelEmitters.ForEach(emitter => emitter());
-                            return;
-                        }
-                    }
-                    DelayInMinutes--;
+                    ActionIsActive = true;
+                    DelayInMinutes = delayInMinutes;
+                    ReportingHelpers.LogInfo($"Broadcasting Initial Change Emitter message.  Delay in minutes: {DelayInMinutes}.");
                     DelayChangeEmitters.ForEach(emitter => emitter(DelayInMinutes));
+                    while (DelayInMinutes > 0)
+                    {
+                        var cyclesPerMinute = 1000;
+                        for (int index = 0; index < cyclesPerMinute; index++)
+                        {
+                            await Task.Delay(MinuteInMs / cyclesPerMinute);
+                            if (CancelAction)
+                            {
+                                CancelAction = false;
+                                ActionIsActive = false;
+                                ReportingHelpers.LogInfo($"Broadcasting Cancelled Emitter message.");
+                                DelayCancelEmitters.ForEach(emitter => emitter());
+                                return;
+                            }
+                        }
+                        DelayInMinutes--;
+                        ReportingHelpers.LogInfo($"Broadcasting Change Emitter message.  Remaining delay in minutes: {DelayInMinutes}.");
+                        DelayChangeEmitters.ForEach(emitter => emitter(DelayInMinutes));
+                    }
+                    ReportingHelpers.LogInfo($"Executing delayed action.");
+                    DefinedAction();
+                    ActionIsActive = false;
                 }
-                DefinedAction();
-                ActionIsActive = false;
+            }
+            catch(Exception e)
+            {
+                ReportingHelpers.LogError($"Error executing Delayed Action: {e}");
             }
         }
     }

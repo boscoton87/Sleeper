@@ -3,6 +3,7 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Sleeper.App.Interfaces;
 using Sleeper.App.Models;
 using Sleeper.App.SystemTray;
+using Sleeper.Core.Enums;
 using Sleeper.Core.Helpers;
 using Sleeper.Core.Interfaces;
 using Sleeper.Core.Services;
@@ -28,6 +29,13 @@ namespace Sleeper.App
             Container.RegisterGlobalInstance<ISettingManager>(GetSettings());
             Container.RegisterGlobalInstance<IAppSettingsContext>(new AppSettingsContext());
 
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sleeper");
+            LogLevel logLevel;
+            if(!Enum.TryParse(Container.ResolveGlobalInstance<ISettingManager>().GetSettings()["logLevel"], out logLevel))
+            {
+                logLevel = LogLevel.Warning;
+            }
+            Container.RegisterGlobalInstance<ILogger>(new JsonFileLogger(logPath, logLevel));
 
             InitializeComponent();
 
@@ -85,6 +93,20 @@ namespace Sleeper.App
                     Apply = (value) =>
                     {
                         settingLoader.ApplySetting("modernStandbyEnabled", value);
+                    }
+                }
+            );
+            settingManager.RegisterSettingMapping(
+                "logLevel",
+                new SettingMapping()
+                {
+                    Load = () =>
+                    {
+                        return settingLoader.GetSetting("logLevel") ?? LogLevel.Warning.ToString();
+                    },
+                    Apply = (value) =>
+                    {
+                        settingLoader.ApplySetting("logLevel", value);
                     }
                 }
             );
